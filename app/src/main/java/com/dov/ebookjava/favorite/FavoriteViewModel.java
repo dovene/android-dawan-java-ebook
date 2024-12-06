@@ -11,14 +11,15 @@ import com.dov.ebookjava.database.AppRoomDatabase;
 import com.dov.ebookjava.database.BookEntity;
 import com.dov.ebookjava.database.BookMapper;
 import com.dov.ebookjava.model.BooksResponse;
+import com.dov.ebookjava.model.Response;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class FavoriteViewModel extends AndroidViewModel {
-    private final MutableLiveData<List<BooksResponse.Book>> _books = new MutableLiveData<>();
-    public LiveData<List<BooksResponse.Book>> books = _books;
+    private final MutableLiveData<List<Response.Item>> _books = new MutableLiveData<>();
+    public LiveData<List<Response.Item>> books = _books;
 
     private final MutableLiveData<Boolean> _isAddedToFavorite = new MutableLiveData<>();
     public LiveData<Boolean> isAddedToFavorite = _isAddedToFavorite;
@@ -35,14 +36,14 @@ public class FavoriteViewModel extends AndroidViewModel {
             for (BookEntity book : books) {
                 booksResponse.add(BookMapper.toModel(book));
             }
-            _books.postValue(booksResponse);
+           // _books.postValue(booksResponse);
         }).start();
     }
 
-    public void removeFromFavorite(BooksResponse.Book book) {
+    public void removeFromFavorite(Response.Item book) {
         new Thread(() -> {
             AppRoomDatabase db = AppRoomDatabase.getInstance(getApplication());
-            db.userDao().deleteByIdString(book.getId());
+            db.userDao().deleteByIdString(book.id);
             _isAddedToFavorite.postValue(false);
             getAllBooks();
         }).start();

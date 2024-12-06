@@ -19,8 +19,8 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class BooksViewModel extends AndroidViewModel {
-    private final MutableLiveData<List<BooksResponse.Book>> _books = new MutableLiveData<>();
-    public LiveData<List<BooksResponse.Book>> books = _books;
+    private final MutableLiveData<List<com.dov.ebookjava.model.Response.Item>> _books = new MutableLiveData<>();
+    public LiveData<List<com.dov.ebookjava.model.Response.Item>> books = _books;
 
     private MutableLiveData<String> _error = new MutableLiveData<>();
     public LiveData<String> error = _error;
@@ -43,14 +43,17 @@ public class BooksViewModel extends AndroidViewModel {
         }
         _loading.postValue(true);
         BooksService booksService = BooksApi.getInstance().getClient().create(BooksService.class);
-        Call<BooksResponse> call = booksService.getBooks(search);
+        Call<com.dov.ebookjava.model.Response.Root> call = booksService.getBooks(search);
 
-        call.enqueue(new retrofit2.Callback<BooksResponse>() {
+        call.enqueue(new retrofit2.Callback<com.dov.ebookjava.model.Response.Root>() {
 
             @Override
-            public void onResponse(Call<BooksResponse> call, Response<BooksResponse> response) {
-                if (response.body() != null && response.body().getBooks()!= null) {
-                    _books.postValue(response.body().getBooks());
+            public void onResponse(Call<com.dov.ebookjava.model.Response.Root> call, Response<com.dov.ebookjava.model.Response.Root> response) {
+
+
+
+                if (response.body() != null && response.body().items!= null) {
+                    _books.postValue(response.body().items);
                 } else {
                     _error.postValue("Une erreur s'est produite");
                 }
@@ -58,14 +61,14 @@ public class BooksViewModel extends AndroidViewModel {
             }
 
             @Override
-            public void onFailure(Call<BooksResponse> call, Throwable throwable) {
+            public void onFailure(Call<com.dov.ebookjava.model.Response.Root> call, Throwable throwable) {
                 _error.postValue(throwable.getMessage());
                 _loading.postValue(false);
             }
         });
     }
-
-    public void toggleFavorite(BooksResponse.Book book) {
+/*
+    public void toggleFavorite(com.dov.ebookjava.model.Response.Item book) {
         new Thread(() -> {
             AppRoomDatabase db = AppRoomDatabase.getInstance(getApplication());
             if (isFavorite(book.getId())) {
@@ -83,6 +86,6 @@ public class BooksViewModel extends AndroidViewModel {
         BookEntity book = db.userDao().getBookById(id);
         return book != null;
     }
-
+*/
 
 }

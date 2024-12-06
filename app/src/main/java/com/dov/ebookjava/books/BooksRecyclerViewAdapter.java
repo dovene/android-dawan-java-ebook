@@ -10,25 +10,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dov.ebookjava.R;
 import com.dov.ebookjava.model.BooksResponse;
+import com.dov.ebookjava.model.Response;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BooksRecyclerViewAdapter  extends RecyclerView.Adapter<BooksViewHolder> {
-    private List<BooksResponse.Book> books;
+    private List<Response.Item> books;
 
     public interface OnItemAction {
-        void onFavoriteClick(BooksResponse.Book book);
-        void onShowDetails(BooksResponse.Book book);
+        void onFavoriteClick(Response.Item book);
+        void onShowDetails(Response.Item book);
     }
     private OnItemAction onItemAction;
 
-    public BooksRecyclerViewAdapter(List<BooksResponse.Book> books, OnItemAction onItemAction) {
+    public BooksRecyclerViewAdapter(List<Response.Item> books, OnItemAction onItemAction) {
         this.books = books;
         this.onItemAction = onItemAction;
     }
 
-    public void setBooks(List<BooksResponse.Book> bookInfos) {
+    public void setBooks(List<Response.Item> bookInfos) {
         this.books = bookInfos;
         notifyDataSetChanged();
     }

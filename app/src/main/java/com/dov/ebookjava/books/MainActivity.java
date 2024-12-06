@@ -21,6 +21,7 @@ import com.dov.ebookjava.R;
 import com.dov.ebookjava.detail.BookDetailActivity;
 import com.dov.ebookjava.favorite.FavoriteActivity;
 import com.dov.ebookjava.model.BooksResponse;
+import com.dov.ebookjava.model.Response;
 
 import java.util.ArrayList;
 
@@ -30,12 +31,12 @@ public class MainActivity extends AppCompatActivity {
     EditText searchEditText;
     BooksRecyclerViewAdapter booksRecyclerViewAdapter = new BooksRecyclerViewAdapter(new ArrayList<>(), new BooksRecyclerViewAdapter.OnItemAction() {
         @Override
-        public void onFavoriteClick(BooksResponse.Book book) {
-            viewModel.toggleFavorite(book);
+        public void onFavoriteClick(Response.Item book) {
+            //viewModel.toggleFavorite(book);
         }
         @Override
-        public void onShowDetails(BooksResponse.Book book) {
-            startActivity(BookDetailActivity.newIntent(MainActivity.this, book));
+        public void onShowDetails(Response.Item book) {
+            //startActivity(BookDetailActivity.newIntent(MainActivity.this, book));
         }
     });
     RecyclerView recyclerView;

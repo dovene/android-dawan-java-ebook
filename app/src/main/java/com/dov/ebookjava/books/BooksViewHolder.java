@@ -15,6 +15,7 @@ import com.dov.ebookjava.R;
 import com.dov.ebookjava.database.AppRoomDatabase;
 import com.dov.ebookjava.database.BookEntity;
 import com.dov.ebookjava.model.BooksResponse;
+import com.dov.ebookjava.model.Response;
 
 public class BooksViewHolder extends RecyclerView.ViewHolder {
     AppCompatTextView titleTV;
@@ -32,16 +33,16 @@ public class BooksViewHolder extends RecyclerView.ViewHolder {
         bookmarkIV = itemView.findViewById(R.id.bookmark_iv);
     }
 
-    public void bind(BooksResponse.Book bookInfo, BooksRecyclerViewAdapter.OnItemAction onItemAction) {
-        titleTV.setText(bookInfo.getVolumeInfo().getTitle());
-        if (bookInfo.getVolumeInfo().getAuthors() != null && !bookInfo.getVolumeInfo().getAuthors().isEmpty()) {
-            authorTV.setText(bookInfo.getVolumeInfo().getAuthors().get(0));
+    public void bind(Response.Item bookInfo, BooksRecyclerViewAdapter.OnItemAction onItemAction) {
+        titleTV.setText(bookInfo.volumeInfo.title);
+        if (bookInfo.volumeInfo.authors != null && !bookInfo.volumeInfo.authors.isEmpty()) {
+            authorTV.setText(bookInfo.volumeInfo.authors.get(0));
         }
-        descriptionTV.setText(bookInfo.getVolumeInfo().getDescription());
+        descriptionTV.setText(bookInfo.volumeInfo.description);
         bookmarkIV.setImageResource(R.drawable.baseline_favorite_24);
         new Thread(() -> {
             AppRoomDatabase db = AppRoomDatabase.getInstance(itemView.getContext());
-            BookEntity book = db.userDao().getBookById(bookInfo.getId());
+            BookEntity book = db.userDao().getBookById(bookInfo.id);
             new Handler(Looper.getMainLooper()).post(() -> {
                 if (book == null) {
                     bookmarkIV.setColorFilter(ContextCompat.getColor(itemView.getContext(), R.color.white));
@@ -52,8 +53,8 @@ public class BooksViewHolder extends RecyclerView.ViewHolder {
         }
         ).start();
 
-        if (bookInfo.getVolumeInfo().getImageLinks() != null) {
-            Glide.with(imageIV.getContext()).load(bookInfo.getVolumeInfo().getImageLinks().getSmallThumbnail()).into(imageIV);
+        if (bookInfo.volumeInfo.imageLinks != null) {
+            Glide.with(imageIV.getContext()).load(bookInfo.volumeInfo.imageLinks.smallThumbnail).into(imageIV);
         }
         bookmarkIV.setOnClickListener(new View.OnClickListener() {
             @Override

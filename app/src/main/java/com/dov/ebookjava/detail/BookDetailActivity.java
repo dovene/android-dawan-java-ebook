@@ -12,6 +12,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import com.bumptech.glide.Glide;
 import com.dov.ebookjava.R;
 import com.dov.ebookjava.model.BooksResponse;
+import com.dov.ebookjava.model.Response;
 import com.google.android.material.imageview.ShapeableImageView;
 
 public class BookDetailActivity extends AppCompatActivity {
@@ -24,13 +25,13 @@ public class BookDetailActivity extends AppCompatActivity {
     public static final String INTENT_IMAGE = "image";
 
 
-    public static Intent newIntent(Context context, BooksResponse.Book book) {
+    public static Intent newIntent(Context context, Response.Item book) {
         Intent intent = new Intent(context, BookDetailActivity.class);
-        intent.putExtra(INTENT_TITLE, book.getVolumeInfo().getTitle());
-        intent.putExtra(INTENT_AUTHOR, book.getVolumeInfo().getAuthors().get(0));
-        intent.putExtra(INTENT_DESCRIPTION, book.getVolumeInfo().getDescription());
-        if (book.getVolumeInfo().getImageLinks() != null) {
-            intent.putExtra(INTENT_IMAGE, book.getVolumeInfo().getImageLinks().getSmallThumbnail());
+        intent.putExtra(INTENT_TITLE, book.volumeInfo.title);
+        intent.putExtra(INTENT_AUTHOR, book.volumeInfo.authors.get(0));
+        intent.putExtra(INTENT_DESCRIPTION, book.volumeInfo.description);
+        if (book.volumeInfo.imageLinks != null) {
+            intent.putExtra(INTENT_IMAGE, book.volumeInfo.imageLinks.smallThumbnail);
         }
         return intent;
     }

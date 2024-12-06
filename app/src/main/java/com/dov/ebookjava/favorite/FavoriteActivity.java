@@ -14,6 +14,7 @@ import com.dov.ebookjava.books.BooksRecyclerViewAdapter;
 import com.dov.ebookjava.R;
 import com.dov.ebookjava.detail.BookDetailActivity;
 import com.dov.ebookjava.model.BooksResponse;
+import com.dov.ebookjava.model.Response;
 
 import java.util.ArrayList;
 
@@ -39,11 +40,11 @@ public class FavoriteActivity extends AppCompatActivity {
     private void setViewItems() {
         booksRecyclerViewAdapter = new BooksRecyclerViewAdapter(new ArrayList<>(), new BooksRecyclerViewAdapter.OnItemAction() {
             @Override
-            public void onFavoriteClick(BooksResponse.Book book) {
+            public void onFavoriteClick(Response.Item book) {
                 viewModel.removeFromFavorite(book);
             }
             @Override
-            public void onShowDetails(BooksResponse.Book book) {
+            public void onShowDetails(Response.Item book) {
                 startActivity(BookDetailActivity.newIntent(FavoriteActivity.this, book) );
             }
         });
